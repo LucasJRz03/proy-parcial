@@ -24,7 +24,7 @@ def iniciar_servidor():
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # Evitar el error: address already in use
 
-    server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR)
     server.bind((HOST, PORT))
     server.listen(MAX_CLIENTES)  
     print(f"[LISTO] servidor escuchando en el puerto {PORT}")
@@ -35,10 +35,10 @@ def iniciar_servidor():
         #Hilo principal cuenta como 1, por ende restamos 1 a los clientes activos
         clientes_activos = threading.active_count() - 1
 
-        if clientes_activos < MAX_CLIENTES:
+        if clientes_activos <= MAX_CLIENTES:
             thread = threading.Thread(target=manejar_cliente, args=(conn,addr))
             thread.start()
-            print(f"[HILOS ACTIVOS] CLientes concurrentes: {thread.active_count() - 1}")
+            print(f"[HILOS ACTIVOS] CLientes concurrentes: {threading.active_count() - 1}")
 
         else:
             print(f"[RECHAZADO] conexión {addr} ignorada por saturación. Limite máx {MAX_CLIENTES}")

@@ -25,7 +25,7 @@ def iniciar_servidor():
     # Evitar el error: address already in use
 
     server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    server.bind(HOST, PORT)
+    server.bind((HOST, PORT))
     server.listen(MAX_CLIENTES)  
     print(f"[LISTO] servidor escuchando en el puerto {PORT}")
 
